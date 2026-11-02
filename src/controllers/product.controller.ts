@@ -1,39 +1,49 @@
-// src/controllers/task.controller.ts
 import type { Request, Response } from "express";
-import * as productService from "../services/product.service.ts";
+// import type { ProductInput } from "../validators/productValidator.ts";
 
-type ProductParams = { id: string };
+export async function getAllProducts(
+  _req: Request,
+  res: Response,
+): Promise<void> {
+  res.status(200).json({ success: true, data: [] });
+}
 
-export async function getAllProducts(_req: Request, res: Response): Promise<void> {
-  const products = await productService.getAllProducts();
-  res.status(200).json({ success: true, data: products });
+export async function getAllProductsByUserId(
+  req: Request<{ userId: string }>,
+  res: Response,
+): Promise<void> {
+  const userId = req.params.userId;
+
+  res.status(200).json({ success: true, data: [] });
 }
 
 export async function getProductById(
-  req: Request<ProductParams>,
+  req: Request<{ id: string }>,
   res: Response,
 ): Promise<void> {
-  const products = await productService.getProductById(req.params.id);
-  res.status(200).json({ success: true, data: products });
+  const productId = req.params.id;
+  res.status(200).json({ success: true, data: {} });
 }
 
-export async function createProduct(req: Request, res: Response): Promise<void> {
-  const product = await productService.createProduct(req.body);
-  res.status(201).json({ success: true, data: product });
+export async function createProduct(
+  req: Request,
+  res: Response,
+): Promise<void> {
+  res.status(201).json({ success: true, data: {} });
 }
 
 export async function updateProduct(
-  req: Request<ProductParams>,
+  req: Request<{ id: string }>,
   res: Response,
 ): Promise<void> {
-  const product = await productService.updateProduct(req.params.id, req.body);
-  res.status(200).json({ success: true, data: product });
+  res.status(200).json({ success: true, data: {} });
 }
 
 export async function deleteProduct(
-  req: Request<ProductParams>,
+  req: Request<{ id: string }>,
   res: Response,
 ): Promise<void> {
-  await productService.deleteProduct(req.params.id);
+  const productId = req.params.id;
+
   res.status(204).send(); // 204 = success, no content
 }
